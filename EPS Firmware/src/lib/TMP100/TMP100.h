@@ -13,7 +13,7 @@
 
 #define TMP100_ADDRESS_1               0x48				      // Connect ADD1 pin to GND and ADD0 pin to GND
 #define TMP100_ADDRESS_2               0x4A				      // Connect ADD1 pin to GND and ADD0 pin to VCC
-#define TMP100_ADDRESS_3               0x49             // Connect ADD0 pin to float (TMP100 TEST)
+#define TMP100_ADDRESS_3               0x49             	  // Connect ADD1 pin to GND and ADD0 pin to float
 
 // General Constants //
 ///////////////////////
