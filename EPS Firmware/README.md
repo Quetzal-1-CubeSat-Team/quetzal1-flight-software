@@ -11,7 +11,6 @@ The EPS was also responsible for monitoring the satellite's power grid and relay
 The microcontroller was loaded with the Arduino bootloader, making it compatible with the Arduino Integrated Development Environment (IDE) software. The firmware written in C++ was uploaded to the microcontroller via an integrated FTDI (Future Technology Devices, Cat. No. FT232RL). This folder contains the firmware programmed into the EPS microcontroller.
 
 ## Design of the EPS I<sup>2</sup>C sensor network
----------
 
 The EPS carried the following I<sup>2</sup>C sensors to monitor the power grid and the health of the on-board battery:
 
@@ -31,7 +30,6 @@ The following figure shows the layout of the internal EPS I<sup>2</sup>C network
 The EPS &mu;C itself was connected as a slave with the address 0x99 to the satellite´s main I<sup>2</sup>C bus, which had the OBC as master. The EPS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SofwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library][2]).
 
 ## Design of the EPS Fault Protection Boards (FPB) network
------
 
 The EPS incorporated four protection circuits denominated Fault Protection Boards (FPB). Each FPB was made up of two components connected in series: a power-distribution switch (Texas Instruments, Cat. No. TPS2551) and a high-side unipolar current shunt monitor (Texas Instruments, Cat. No. INA169). The FPBs were used to power up or down individual satellite systems (COMMS, ADCS, Payload, and battery heater) and monitor their power consumption [[1]](#1).
 
@@ -50,7 +48,6 @@ The following picture shows the circuit schematic of the complete EPS &mu;C pino
 Note that pin PD2 of the EPS &mu;C was used as a digital output pin that was connected to the active-high enable pin of a 5V0 voltage regulator integrated on the EPS circuit board. Further details regarding the electronic design of the Quetzal-1's EPS can be found in [[1]](#1).
 
 ## Software and sensor start-up
------
 
 The EPS firmware was designed with the same structure of a typical Arduino script. The main script __EPS_Flight_Software.ino__ can be found [here](./src/EPS_Flight_Software.ino). The setup section of the code executed pin configuration of the microcontroller, activating the analog and digital pins connected to each of the EPS FPBs (ADCS, COMMS, Payload, Heater). Subsequently, the &mu;C initialized the internal EPS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times, as shown in the following code snippet:
 
@@ -72,12 +69,11 @@ The EPS firmware was designed with the same structure of a typical Arduino scrip
 Any error during the start-up sequence of a sensor was recorded in a Communication Flags (CF) byte. The structure of the CF byte was the following:
 
 __Table 1:__ EPS Communication Flags (CF) byte (0 - Error; 1 - Success)
-![Alt text](./misc/table_cf.png?raw=true "Title")
+![Table 1](./misc/table_cf.PNG?raw=true "Title")
 
 If a sensor failed to communicate with the &mu;C three times during start-up, then the &mu;C would set that sensor’s CF flag to 0. Otherwise, it would set the sensor’s CF flag to 1. After finishing the configuration of all the sensors, the &mu;C would evaluate the resulting CF byte. If the CF byte had a value different from 0x00, then the &mu;C would set an implemented __<em>eps_ready</em>__ flag to a value of 1. This flag was retrieved by the OBC to determine if the EPS system had been initialized correctly. If the OBC received the __<em>eps_ready</em>__ flag set to 0, it would command the EPS &mu;C to execute a software reset and retry the configuration of all the sensors. After the setup, the &mu;C would then start executing a loop every 10 ms without performing any specific action, unless the OBC commanded otherwise.
 
 ## OBC-EPS Communication
-----
 
 Interruptions were enabled in the EPS &mu;C so it could receive commands sent by the OBC via the satellite’s main I<sup>2</sup>C bus. A typical I<sup>2</sup>C transaction between EPS and OBC was executed in two steps: 
 
@@ -93,12 +89,11 @@ Three different types of commands were implemented on the EPS software:
 The complete list of OBC-EPS commands can be found [here](./src/lib/EPS/EPS.h).
 
 ## Power grid monitoring
-----
 
 When the EPS &mu;C was commanded by the OBC to collect data from all sensors, the <em>collect_data</em> flag would be activated, and the execution loop would then perform the collection of all EPS measurements. Firstly, an implemented <em>collect_ready</em> flag would be deactivated to signal that the EPS &mu;C was in process of monitoring the satellite’s power grid. Then, the &mu;C would command each sensor to measure and return data for processing and storage. To implement fault tolerance during data collection, the &mu;C was programmed to try to obtain data from each EPS sensor a maximum of three times and to record any error in a Transmission Flags (TF) byte. The structure of the TF byte was the following:
 
 __Table 2:__ EPS Transmission Flags (TF) byte (0 - Error; 1 - Success)
-![Alt text](./misc/table_tf.png?raw=true "Title")
+![Table 2](./misc/table_tf.PNG?raw=true "Title")
 
 If a sensor failed to transmit correct data back to the &mu;C three times during collection, then the &mu;C would set that sensor’s TF flag to 0. Otherwise, it would set the sensor’s TF flag to 1. Furthermore, error values were implemented to indicate the reason for a transmission failure. If a sensor failed to transmit data back to the &mu;C due to I<sup>2</sup>C miscommunication, all variables used to store data from the specific sensor would be loaded with the 0xFD or 0x0FFD values (Transmission Error). If a sensor sent data back to the &mu;C, but a measurement corresponding to a strictly positive quantity returned as a negative number, the incorrect variable would be reloaded with the 0xFE or 0x0FFE values (Negative Error). Lastly, if a sensor sent data back to the &mu;C, but a measurement was out of a nominal operating range, the incorrect variable would be reloaded with the 0xFF or 0x0FFF values (Range Error). 
 
@@ -109,14 +104,14 @@ During data collection, the EPS &mu;C also polled the analog voltages returned b
 A Fault Flags (FPBF) byte was used to record any overcurrent or short-circuit failure detected by the EPS &mu;C when polling the FPBs. If the &mu;C detected that a specific system was consuming a current above its overcurrent limit, the overcurrent flag for that system would be set to a value of 1 to indicate an error. Furthermore, if the &mu;C detected that a system was enabled but it was consuming a current was below 15 mA (3 mA in the case of ADCS), the short-circuit flag for that system would be set to a value of 1 to indicate an error. This was programmed according to the FPB design because the current monitor measured a current of 0 mA when the FPB switch automatically isolated a failing system. The OBC was programmed to retrieve the FPBF byte from the EPS &mu;C every time it commanded the EPS to activate a system. This was done to allow the OBC to issue a quick deactivation command to shut down a failing system. The FPBF byte structure is shown in the following table:
 
 __Table 3:__ EPS FPBF byte (SC - short-circuit; OC - overcurrent; 0 - All OK; 1 - Failure)
-![Alt text](./misc/table_ff.png?raw=true "Title")
+![Table 3](./misc/table_ff.PNG?raw=true "Title")
 
 It is worth noting that the ADCS system was programmed in such a way that its sensors exited low power mode and executed their measurements after the EPS had finished its own measurements. For this reason, the EPS &mu;C always detected that the ADCS was enabled but consuming almost 0 mA during ground tests (reduced quiescent current in low power mode). This caused the ADCS short-circuit flag to always be set to 1 even though there was no real short-circuit condition. Since the ADCS would always be in failure according to the FPBF byte, the OBC was programmed to ignore the ADCS short-circuit flag to avoid an accidental shutdown of the system when the satellite launched into space.
 
 After the EPS &mu;C finished collecting all the data, the <em>collect_ready</em> flag would be activated to indicate to the OBC that there was new data to be retrieved. The OBC would then command the EPS &mu;C to send back all the collected data, and the EPS &mu;C would subsequently deactivate the <em>collect_ready</em> flag again to indicate that there was no new data to be retrieved at the moment. The OBC could also command the EPS &mu;C to directly measure the battery state of charge and the FPB currents without having to execute the complete set of measurements by activating the <em>collect_SOC</em> and <em>collect_FPB</em> flags, respectively. It could also command the EPS &mu;C to execute a software reset by activating the <em>eps_reset</em> flag, which basically forced the program’s pointer to return to the zero position in the program memory. This allowed the EPS &mu;C to execute the software setup again.
 
-----
 ## References
+
 <a id="1">[1]</a> 
 Aguilar-Nadalini, A. et al. (2022): Design and On-Orbit Performance of the Electrical Power System for the Quetzal-1 CubeSat, Journal of Small Satellites (JOSS), vol. TBD(TBD), p. TBD.
 
