@@ -16,3 +16,11 @@ The software for the following subsystems is included in this repository:
 2. `EPS/`: contains the software for the Electrical Power System (EPS).
 
 Lastly, the `media/` directory contains miscellaneous photos relating to the satellite in general, that may be of use and serve as reference to the user.
+
+## Available Repositories
+
+| Repository               | Description                                                                                                             |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| [quetzal1-hardware](https://github.com/Quetzal-1-CubeSat-Team/quetzal1-hardware)        | Contains the hardware design files for Quetzal-1 and its subsystems.                                                    |
+| quetzal1-flight-software | This repository.                                                                 |
+| [gr-quetzal1](https://github.com/danalvarez/gr-quetzal1)              | Contains the software used on the Ground Control Station for Quetzal-1, based on GNURadio. |
