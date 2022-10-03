@@ -67,7 +67,7 @@ int16_t temp_tmp100 = 0;            // Stores the temperature read from the TMP1
 byte tmp100_temperature[2] = {0};   // Stores the separated high and low bytes read from the TMP100 sensor
 
 // Communication flags
-byte comm_flags = 0x00;             // [TMP100_comm, adc1_comm, adc2_comm, imu_comm]
+byte comm_flags = 0x00;             // [TMP100_comm, adc2_comm, adc1_comm, imu_comm]
 
 // Counter for communication iterations
 uint8_t count_bno = 0;

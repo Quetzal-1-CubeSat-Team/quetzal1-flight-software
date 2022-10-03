@@ -1,7 +1,7 @@
 # Electrical Power System
 
 ---
-:information_source: A conceptual overview of Electrical Power System (EPS) can be found in our hardware repository, [quetzal1-hardware](https://github.com/Quetzal-1-CubeSat-Team/quetzal1-hardware/tree/master/EPS). We recommend you read it first, if this is your first time here. Some terms mentioned throughout this document may be defined there.
+:information_source: A conceptual overview of the Electrical Power System (EPS) can be found in our hardware repository, [quetzal1-hardware](https://github.com/Quetzal-1-CubeSat-Team/quetzal1-hardware/tree/master/EPS). We recommend you read it first, if this is your first time here. Some terms mentioned throughout this document may be defined there.
 
 ---
 
@@ -27,7 +27,7 @@ The EPS carried the following I<sup>2</sup>C sensors to monitor the power grid a
 
 The following figure shows the layout of the internal EPS I<sup>2</sup>C network:
 
-![Alt text](./media/eps_network.png?raw=true "Title")
+![eps-network](./media/eps_network.png?raw=true "EPS Sensor Network")
 
 The EPS &mu;C itself was connected as a slave with the address `0x99` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The EPS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SofwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
 
@@ -37,7 +37,7 @@ The EPS incorporated four protection circuits denominated Fault Protection Board
 
 The following figure shows the connections between the EPS &mu;C and the FPBs:
 
-![Alt text](./media/eps_fpb_connection.png?raw=true "FPB Diagram")
+![fpb-diagram](./media/eps_fpb_connection.png?raw=true "FPB Diagram")
 
 The __FPB switches__ had active-high enable pins that could be used to control the power supply of individual satellite systems. Thus, the enable pin of each FPB was connected to a digital output pin of the EPS &mu;C. In this way, it could command the activation or deactivation of a system following the commands sent by the OBC via the main I<sup>2</sup>C bus.
 
@@ -45,9 +45,14 @@ The __FPB monitors__ measured the current consumption of each system using a shu
 
 The following picture shows the circuit schematic of the complete EPS &mu;C pinout including the pins connected to the FPBs:
 
-![Alt text](./media/eps_pinout.png?raw=true "Title")
+![eps-pinout](./media/eps_pinout.png?raw=true "EPS Pinout")
 
-Note that pin PD2 of the EPS &mu;C was used as a digital output pin that was connected to the active-high enable pin of a 5V voltage regulator integrated on the EPS circuit board. Further details regarding the electronic design of the Quetzal-1's EPS can be found in [[1]](#user-content-references) and [[2]](#user-content-references).
+Note that pin PD2 of the EPS &mu;C was used as a digital output pin that was connected to the active-high enable pin of a 5V voltage regulator integrated on the EPS circuit board.
+
+---
+:information_source: Further details regarding the electronic design of the Quetzal-1's EPS can be found in [[1]](#user-content-references) and [[2]](#user-content-references).
+
+---
 
 ## Software and sensor start-up
 
