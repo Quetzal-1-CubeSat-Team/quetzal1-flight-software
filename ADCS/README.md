@@ -61,6 +61,28 @@ If a sensor failed to communicate with the &mu;C three times during start-up, th
 
 In the main loop, the &mu;C would check if any flag was set, perform an action if so, and then go into the deepest sleep mode (to conserve power). The &mu;C would be woken up via an I2C command from the OBC, perform the requested action, and sleep once more.
 
+## IMU Configuration
+
+Of the available inertial sensors on the BNO055 IMU, only the magnetometer and gyroscope were required by Quetzal-1. Therefore, it was decided that the accelerometer be flown powered off, as linear acceleration data while in free fall was deemed of little value on orbit [[1]](#user-content-references). 
+
+Additionally, this IMU contains an integrated sensor fusion algorithm. Since the accuracy of these modes could not be verified for space applications, and taking into account that these modes also run calibration algorithms to compensate for offsets or errors in each of the sensors, the BNO055 was configured to operate in the `MAGGYRO` Non-Fusion mode (see section 3.3.2 of the BNO055 [datasheet](https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf)). In this mode, the accelerometer is powered off, while the data for the magnetometer and gyroscope is uncalibrated/uncompensated. This was adequate: since attitude data was not required in real time to inform any of the satellite's functions, it could be calibrated and analyzed on the ground ex post facto to provide an "image" of the satellite's orientation throughout orbits [[1]](#user-content-references).
+
+### Differences w.r.t. the Adafruit_BNO055 library
+
+The library to control the BNO055 IMU was largely based on release `1.1.6` of the [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055) library, with the inclusion of the power management functions suggested in [this pull request](https://github.com/adafruit/Adafruit_BNO055/pull/57).
+
+Small modifications were done to accomodate for functions specific to Quetzal-1:
+
+1. The `MAGGYRO` mode was configured as follows:
+
+```c++
+    bool  begin               ( adafruit_bno055_opmode_t mode = OPERATION_MODE_MAGGYRO );
+
+```
+
+2. All instances of `Wire` were replaced by the SoftwareWire equivalent, `adcs_wire`.
+3. A `testComm` function was added with a dummy command (`DUMMY_CMD`) to check if communication with the IMU could be established.
+
 ## OBC-ADCS Communication
 
 Interruptions were enabled in the ADCS &mu;C so it could receive commands sent by the OBC via the satellite’s main I<sup>2</sup>C bus. A typical I<sup>2</sup>C transaction between ADCS and OBC was executed in two steps: 
