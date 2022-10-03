@@ -1,18 +1,16 @@
 /*
- * Titulo: TMP100.cpp
- * Autor: Aldo Stefano Aguilar Nadalini 15170 
- * Fecha: 16 de diciembre de 2018
- * Descripcion: Libreria para programa que ejecuta funcionamiento de TMP100´s conectados a microcontrolador de Modulo EPS
+ * Title: TMP100.cpp
+ * Originally from: Alex Wende @ SparkFun Electronics
+ * Available online at: https://github.com/sparkfun/SparkFun_TMP102_Arduino_Library
+ * Modified by: Aldo Aguilar-Nadalini 
+ * Modification Date: December 16th, 2018
+ * Description: TMP100 Thermal Sensor library
  */
 
 // Imports
 #include "Arduino.h"
 #include <TMP100.h>
 #include <SoftwareWire.h>
-
-/*
- * ------------------- FUNCIONES ESPECIFICAS PARA TMP100 ---------------------
- */
 
 /**************************************************************************/
 /*! 
@@ -32,7 +30,7 @@ TMP100::TMP100(int mode)
 
 /**************************************************************************/
 /*! 
-    @brief  Funcion para colocar I2C bus
+    @brief  Set EPS internal I2C bus as the bus used by the TMP100
 */
 /**************************************************************************/
 void TMP100::setI2C(SoftwareWire i2c_bus)
@@ -42,7 +40,7 @@ void TMP100::setI2C(SoftwareWire i2c_bus)
 
 /**************************************************************************/
 /*! 
-    @brief  Funcion de Write I2C para TMP100
+    @brief  Write I2C
 */
 /**************************************************************************/
 bool TMP100::i2cWriteBytes (uint8_t pointer, uint8_t value)
@@ -56,12 +54,12 @@ bool TMP100::i2cWriteBytes (uint8_t pointer, uint8_t value)
 
 /**************************************************************************/
 /*! 
-    @brief  Funcion de Read I2C para TMP100
+    @brief  Read I2C
 */
 /**************************************************************************/
 bool TMP100::i2cReadBytes(uint8_t pointer, int16_t *value, uint8_t count)
 {
-  // Variables de Verificacion
+  // Verification variables
   int transmission = -1;
   int reception = -1;
 
@@ -81,9 +79,9 @@ bool TMP100::i2cReadBytes(uint8_t pointer, int16_t *value, uint8_t count)
     *value = ((adcs_wire.read() << 8) | adcs_wire.read());
   }
 
-  // Chequeo de transmision (Si transmission es 0, se ejecuto bien el envio. Si bytes de recepcion son 2, se ejecuto bien el read)
+  // Transmission check (If transmission is 0, write was success. If 2 bytes are received, read was success)
   if ((transmission == 0) && (reception == count)){
-    return true;                                          // Transmision-recepcion exitosa
+    return true;                                          // Transmission-reception success
   } else {
     return false;
   }

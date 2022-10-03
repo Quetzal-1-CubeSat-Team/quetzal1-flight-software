@@ -1,4 +1,19 @@
-/* Libraries */
+/***************************************************************************
+  This is the Software for the Attitude Determination and Control System
+  (ADCS) for the Quetzal-1 satellite, Guatemalas first satellite.
+  
+  Written to work specifically with the ADCS Printed Circuit Board (PCB).
+  See our github for more info!
+  ------> https://github.com/Quetzal-1-CubeSat-Team
+
+  Quetzal-1 was a 1U CubeSat developed by an engineering team from
+  Universidad del Valle de Guatemala (UVG). The satellite was deployed
+  from the International Space Station's (ISS) KiboCUBE module, on April
+  28, 2020, and operated succesfully in space from the day of deployment
+  to November of the same year. This amounted to 211 days of operation,
+  which validated the performance of all systems on-board.
+ ***************************************************************************/
+
 #include "ADCS.h"
 #include <avr/power.h>
 #include <avr/sleep.h>
@@ -10,49 +25,49 @@
 #include "ADC128D818.h"
 #include "TMP100.h"
 
+//-------------------------------------------------------------------------/
+//  CONSTANTS
+//-------------------------------------------------------------------------/
 #define ADM_RESET_PIN   3
 
-// Software wire configuration
-SoftwareWire adcs_wire(A2,A3);
+//-------------------------------------------------------------------------/
+//  SENSOR INITIALIZATION
+//-------------------------------------------------------------------------/
+SoftwareWire adcs_wire(A2,A3);              // Software wire configuration
+Adafruit_BNO055 bno = Adafruit_BNO055(55);  // IMU
+ADC128D818 adc1(ADC1_ADDR);                 // ADC 1
+ADC128D818 adc2(ADC2_ADDR);                 // ADC2
+TMP100 tmp100(0);                           // Temp sensor
 
-// BNO055 object declaration
-Adafruit_BNO055 bno = Adafruit_BNO055(55);
+//-------------------------------------------------------------------------/
+//  GLOBAL VARIABLES
+//-------------------------------------------------------------------------/
+byte wireCommand = 0;               // The command received from the On Board Computer
 
-// ADC1 object declaration.
-ADC128D818 adc1(ADC1_ADDR);
+byte adcs_ready_flag = 0;           // Signals all sensors initialized correctly
+bool collect_flag = false;          // Allows collecting data
+bool checkcomm_flag = false;        // Check comm with sensors on ADCS board
+bool reset_flag = false;            // Soft reset the ADCS board
+bool adm_reset_flag = false;        // Reset the ADM GPIO Expander
 
-// ADC2 object declaration.
-ADC128D818 adc2(ADC2_ADDR);
+float temp_gyro[3] = {0};           // Stores the gyro data in deg/s
+byte gyro[3] = {0};                 // Stores the converted gyro data (1 byte per axis)
 
-// TMP100 object declaration
-TMP100 tmp100(0);
+float temp_magneto_float[3] = {0};  // Stores the magnetometer data uTeslas
+uint16_t temp_magneto[3] = {0};     // Stores the converted gyro data (2 bytes per axis)
+byte magneto[6] = {0};              // Stores separated high and low bytes for each axis
 
-byte wireCommand = 0;
+float temp_adc1pd[6] = {0};         // Stores the voltage read from each channel of the ADC1 (in volts)
+byte adc1pd[6] = {0};               // Stores the converted values from the ADC1 (1 byte per channel)  
+float temp_adc2pd[6] = {0};         // Stores the voltage read from each channel of the ADC2 (in volts)
+byte adc2pd[6] = {0};               // Stores the converted values from the ADC2 (1 byte per channel)  
 
-byte adcs_ready_flag = 0;
-bool collect_flag = false;    // Allows collecting data
-bool checkcomm_flag = false;
-bool reset_flag = false;
-bool adm_reset_flag = false;
-
-float temp_gyro[3] = {0};
-byte gyro[3] = {0};
-
-float temp_magneto_float[3] = {0};
-uint16_t temp_magneto[3] = {0};
-byte magneto[6] = {0};
-
-float temp_adc1pd[6] = {0};
-byte adc1pd[6] = {0};
-float temp_adc2pd[6] = {0};
-byte adc2pd[6] = {0};
-
-int8_t imu_temperature = 0;
-int16_t temp_tmp100 = 0;
-byte tmp100_temperature[2] = {0};
+int8_t imu_temperature = 0;         // Stores the temperature read from the BNO055 IMU
+int16_t temp_tmp100 = 0;            // Stores the temperature read from the TMP100 sensor
+byte tmp100_temperature[2] = {0};   // Stores the separated high and low bytes read from the TMP100 sensor
 
 // Communication flags
-byte comm_flags = 0x00; // [TMP100_comm, adc1_comm, adc2_comm, imu_comm]
+byte comm_flags = 0x00;             // [TMP100_comm, adc1_comm, adc2_comm, imu_comm]
 
 // Counter for communication iterations
 uint8_t count_bno = 0;
@@ -60,7 +75,15 @@ uint8_t count_adc1 = 0;
 uint8_t count_adc2 = 0;
 uint8_t count_tmp100 = 0;
 
+//-------------------------------------------------------------------------/
+//  HELPER FUNCTIONS FOR INITIALIZATION
+//-------------------------------------------------------------------------/
 
+/**************************************************************************/
+/*! 
+    @brief  Power saving configuration for unused modules
+*/
+/**************************************************************************/
 void powerSaving() {
   power_adc_disable();
   power_spi_disable();
@@ -69,9 +92,12 @@ void powerSaving() {
   power_timer2_disable();
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Attempt to initialize the BNO055 IMU
+*/
+/**************************************************************************/
 void bno_init() {
-  // BNO055 Initialization
   count_bno = 0;
   while (count_bno < 3) {
     if (bno.begin()) {
@@ -87,9 +113,12 @@ void bno_init() {
   }
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Attempt to initialize the Analog to Digital Converter (ADC) #1
+*/
+/**************************************************************************/
 void adc1_init() {
-  // ADC1 Initialization
   count_adc1 = 0;
   while (count_adc1 < 3) {
     if (adc1.begin()) {
@@ -103,9 +132,12 @@ void adc1_init() {
   }
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Attempt to initialize the Analog to Digital Converter (ADC) #2
+*/
+/**************************************************************************/
 void adc2_init() {
-  // ADC2 Initialization
   count_adc2 = 0;
   while (count_adc2 < 3) {
     if (adc2.begin()) {
@@ -119,9 +151,12 @@ void adc2_init() {
   }
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Attempt to initialize the TMP100 temperature sensor
+*/
+/**************************************************************************/
 void tmp100_init() {
-  // TMP100 Initialization
   count_adc2 = 0;
   while (count_tmp100 < 3) {
     if (tmp100.wakeup()){
@@ -136,35 +171,55 @@ void tmp100_init() {
   }
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Retry init for BNO055 IMU
+*/
+/**************************************************************************/
 void bno_checkComm() {
   if (!comm_flags & (1<<0)) {
     bno_init();
   }
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Retry init for ADC #1
+*/
+/**************************************************************************/
 void adc1_checkComm() {
   if (!comm_flags & (1<<1)) {
     adc1_init();
   }
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Retry init for ADC #2
+*/
+/**************************************************************************/
 void adc2_checkComm() {
   if (!comm_flags & (1<<2)) {
     adc2_init();
   }
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Retry init for TMP100
+*/
+/**************************************************************************/
 void tmp100_checkComm() {
   if (!comm_flags & (1<<3)) {
     tmp100_init();
   }
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief  Retries init for all sensors
+*/
+/**************************************************************************/
 void checkComm() {
   bno_checkComm();
   adc1_checkComm();
@@ -172,8 +227,15 @@ void checkComm() {
   tmp100_checkComm();
 }
 
+//-------------------------------------------------------------------------/
+//  FUNCTIONS TO COLLECT AND SEND DATA TO OBC
+//-------------------------------------------------------------------------/
 
-/************************* SEND DATA ****************************************/
+/**************************************************************************/
+/*! 
+    @brief  Reset all variables relating to sensor data
+*/
+/**************************************************************************/
 void clean_data() {
   for (uint8_t i = 0; i<3; i++) {
     temp_gyro[i] = 0;
@@ -197,52 +259,95 @@ void clean_data() {
 }
 
 
-// Send adcs_ready_flag
+/**************************************************************************/
+/*! 
+    @brief Send adcs_ready_flag
+*/
+/**************************************************************************/
 void adcs_ready() {
   Wire.write(adcs_ready_flag);
 }
 
-// Send gyroscope data
+/**************************************************************************/
+/*! 
+    @brief Send gyroscope data
+*/
+/**************************************************************************/
 void send_gyroscopes() {
   Wire.write(gyro, 3);
 }
 
-// Send magnetometers data
+/**************************************************************************/
+/*! 
+    @brief Send magnetometer data
+*/
+/**************************************************************************/
 void send_magnetometers() {
   Wire.write(magneto, 6);
 }
 
-// Send ADC1 photodiodes data
+/**************************************************************************/
+/*! 
+    @brief Send photodiode data for ADC #1
+*/
+/**************************************************************************/
 void send_photodiodes1() {
   Wire.write(adc1pd, 6);
 }
 
-// Send ADC2 photodiodes data
+/**************************************************************************/
+/*! 
+    @brief Send photodiode data for ADC #2
+*/
+/**************************************************************************/
 void send_photodiodes2() {
   Wire.write(adc2pd, 6);
 }
 
-// Send temperature data
+/**************************************************************************/
+/*! 
+    @brief Send temperature from the IMU sensor
+*/
+/**************************************************************************/
 void send_temperature() {
   Wire.write(imu_temperature);
 }
 
-// Send tmp100 data
+/**************************************************************************/
+/*! 
+    @brief Send temperature from the TMP100 sensor
+*/
+/**************************************************************************/
 void send_tmp100() {
   Wire.write(tmp100_temperature, 2);
 }
 
+/**************************************************************************/
+/*! 
+    @brief Send comm flag byte
+*/
+/**************************************************************************/
 void send_commflags() {
   Wire.write(comm_flags);
 }
 
+/**************************************************************************/
+/*! 
+    @brief Set the collect_flag, respond with OK
+*/
+/**************************************************************************/
 void collect_response() {
   collect_flag = true;
   Wire.write(OK);
 }
 
-/*********************** DATA COLLECT FROM IMU, TMP100 AND ADCS *******************/
+/**************************************************************************/
+/*! 
+    @brief Collect data from the IMU, TMP100 and ADCs
+*/
+/**************************************************************************/
 void collect_data() {
+  // Reset all sensor variables
   clean_data();
 
   // BNO055 data
@@ -258,12 +363,16 @@ void collect_data() {
       temp_gyro[1] = gyroscope.y();
       temp_gyro[2] = gyroscope.z();
 
-      // Float to byte conversion. Limits in -31.42 and 31.42
+      // Float to byte conversion.
+      // ERRATA - September 2022: This should be changed to limit to 100 dps,
+      //                          since the conversion formula below is set to
+      //                          work for ranges [-100, 100] dps.
       for (int8_t i = 0; i < 3; i++) {
         if (temp_gyro[i] < -125) temp_gyro[i] == -125;
         if (temp_gyro[i] >  125) temp_gyro[i] ==  125;
       }
 
+      // Save each gyroscope axis into 1 byte
       for (int8_t i = 0; i < 3; i++) {
         gyro[i] = 1.275 * temp_gyro[i] + 127.5;
       }
@@ -274,64 +383,63 @@ void collect_data() {
       temp_magneto_float[1] = magnetometer.y();
       temp_magneto_float[2] = magnetometer.z();
 
-      // Float to byte conversion. Limits in -100 and 100
+      // Float to byte conversion.
+      // X and Y axes limited to max range of +/- 1300 uT
+      // see Table 0-2 for Magnetic field range (https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf)
       for (int8_t i = 0; i < 4; i++) {
         if (temp_magneto_float[i] < -1300) temp_magneto_float[i] == -1300;
         if (temp_magneto_float[i] >  1300) temp_magneto_float[i] ==  1300;
       }
 
+      // Z axis limited to max range of +/- 2500 uT
+      // see Table 0-2 for Magnetic field range (https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf)
       for (int8_t i = 4; i < 6; i++) {
         if (temp_magneto_float[i] < -2500) temp_magneto_float[i] == -2500;
         if (temp_magneto_float[i] >  2500) temp_magneto_float[i] ==  2500;
       }
 
+      // Save each magnetometer axis into 2 bytes
       temp_magneto[0] = (8192/325) * temp_magneto_float[0] + 65536/2;
       temp_magneto[1] = (8192/325) * temp_magneto_float[1] + 65536/2;
       temp_magneto[2] = (8192/625) * temp_magneto_float[2] + 65536/2;
 
+      // Separate high and low bytes of each magnetometer axis
       for (int8_t i = 0; i < 3; i++) {
         magneto[2 * i] = temp_magneto[i] >> 8;
         magneto[2 * i + 1] = temp_magneto[i];
       }     
   
-      imu_temperature = bno.getTemp();
-      bno.enterSuspendMode();
-      comm_flags |= 0x01;
+      imu_temperature = bno.getTemp();  // read temperature from IMU (1 byte, signed)
+      bno.enterSuspendMode();           // suspend the IMU to conserve power
+      comm_flags |= 0x01;               // set the IMU flag to 1
       break;
     }
     else {
-      comm_flags &= 0xFE;
-      count_bno++;
+      comm_flags &= 0xFE;               // set IMU flag to 0
+      count_bno++;                      // increase the retry counter
     }
   }
-
-  /* 
-  * Photodiodes float to byte conversion.
-  * Initiate a single conversion and comparison cycle when the device is in shutdown mode or deep shutdown mode, 
-  * after which the device returns to the respective mode that it was in. This register is not a data register, 
-  * and it is the write operation that causes the one-shot conversion. The data written to this address is 
-  * irrelevant and is not stored. A zero will always be read from this register.
-  */
 
   // ADC1 data
   count_adc1 = 0;
   while (count_adc1 <= 3) {
     // Tries to communicate with the device 3 times.
     if (adc1.testComm()) {
-      //readConverted returns a double.
+      // readConverted returns a double between 0 and 3.3 volts
       for (int8_t i = 0; i < 6; i++) {
         temp_adc1pd[i] = adc1.readConverted(i);
       }
+      // convert each channel to 1 byte
       for (int8_t i = 0; i < 6; i++) {
         adc1pd[i] = 77.27 * temp_adc1pd[i];
       }
 
-      comm_flags |= 0x02;
+      comm_flags |= 0x02; // set the ADC1 flag to 1
       break;
     }
     else {
-      comm_flags &= 0xFD;
-      count_adc1++;
+      comm_flags &= 0xFD; // set the ADC1 flag to 0
+      count_adc1++;       // increase the retry counter
     }
   }
 
@@ -340,46 +448,51 @@ void collect_data() {
   while (count_adc2 <= 3) {
     // Tries to communicate with the device 3 times.
     if (adc2.testComm()) {
-      //readConverted returns a double.
+      // readConverted returns a double between 0 and 3.3 volts
       for (int8_t i = 0; i < 6; i++) {
         temp_adc2pd[i] = adc2.readConverted(i);
       }
+      // convert each channel to 1 byte
       for (int8_t i = 0; i < 6; i++) {
         adc2pd[i] = 77.27 * temp_adc2pd[i];
       }
 
-      comm_flags |= 0x04;
+      comm_flags |= 0x04; // set the ADC2 flag to 1
       break;
     }
     else {
-      comm_flags &= 0xFB;
-      count_adc2++;
+      comm_flags &= 0xFB; // set the ADC2 flag to 0
+      count_adc2++;       // increase the retry counter
     }
   }
 
   // TMP100 data
   count_tmp100 = 0;
   while (count_tmp100 < 3) {
+    // Tries to communicate with the device 3 times.
     if (tmp100.wakeup()){
-      temp_tmp100 = tmp100.readTempC();
-      tmp100.sleep();
+      temp_tmp100 = tmp100.readTempC(); // read the temperature (2 bytes, signed)
+      tmp100.sleep();                   // sleep the sensor after reading
 
+      // separate the high and low bytes
       tmp100_temperature[0] = temp_tmp100 >> 8;
       tmp100_temperature[1] = temp_tmp100;
       
-      comm_flags |= 0x08;
+      comm_flags |= 0x08; // set the TMP100 flag to 1
       break;
     }
     else {
-      comm_flags &= 0xF7;
-      count_tmp100++;
+      comm_flags &= 0xF7; // set the TMP100 flag to 0
+      count_tmp100++;     // increase the retry counter
     }
   }
 }
 
-/*******************************************************************************/
-
-// Send complete data package
+/**************************************************************************/
+/*! 
+    @brief Send complete data package
+*/
+/**************************************************************************/
 void send_data() {
   send_gyroscopes();
   send_magnetometers();
@@ -392,22 +505,51 @@ void send_data() {
   checkcomm_flag = true;
 }
 
+/**************************************************************************/
+/*! 
+    @brief Set the reset flag, to be checked in the main loop to perform a
+    soft reset of this microcontroller
+*/
+/**************************************************************************/
 void reset() {
   reset_flag = true;
   Wire.write(OK);
 }
 
+/**************************************************************************/
+/*! 
+    @brief Set the ADM reset flag, to be check in the main loop to perform
+    a reset of the ADM GPIO Expander
+*/
+/**************************************************************************/
 void adm_reset() {
   adm_reset_flag = true;
   Wire.write(OK);
 }
 
+/**************************************************************************/
+/*! 
+    @brief Soft reset, return program counter to initial position
+*/
+/**************************************************************************/
 void(* resetFunc) (void) = 0;
 
 
+//-------------------------------------------------------------------------/
+//  MAIN ARDUINO FUNCTIONS
+//-------------------------------------------------------------------------/
+
+/**************************************************************************/
+/*! 
+    @brief Arduino setup function, configure GPIO and I2C buses,
+    initialize flag values
+*/
+/**************************************************************************/
 void setup() {
+  // disable unnecessary modules
   powerSaving();
 
+  // ADM is enable HIGH
   pinMode(ADM_RESET_PIN, OUTPUT);
   digitalWrite(ADM_RESET_PIN, HIGH);
 
@@ -417,7 +559,7 @@ void setup() {
   adc2.setI2C(adcs_wire);
   tmp100.setI2C(adcs_wire);
 
-  //Init sensors
+  // Init sensors
   bno_init();
   adc1_init();
   adc2_init();
@@ -425,14 +567,19 @@ void setup() {
 
   // OBC I2C Bus configuration
   Wire.begin(SLAVE_ADDR);         // join i2c bus with Slave ID
-  Wire.onReceive(receiveEvent);   // Register a recieve from master event
+  Wire.onReceive(receiveEvent);   // Register a receive from master event
   Wire.onRequest(requestEvent);
 
   adcs_ready_flag = OK;
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief Arduino loop, checks flags, executes if necessary, then sleeps
+*/
+/**************************************************************************/
 void loop() {
+  // reset the GPIO expander on the ADM PCB
   if (adm_reset_flag) {
     adm_reset_flag = false;
     digitalWrite(ADM_RESET_PIN, LOW);
@@ -440,32 +587,53 @@ void loop() {
     digitalWrite(ADM_RESET_PIN, HIGH);
   }
 
+  // soft reset this microcontroller
   if (reset_flag) {
     reset_flag = false;
     delay(1);
     resetFunc();
   }
 
+  // collect data from the ADCS sensors
   if (collect_flag) {
     collect_data();
     collect_flag = false;     // Reset collect_flag status
   }
 
+  // check comm with the ADCS sensors
   if (checkcomm_flag) {
     checkComm();
     checkcomm_flag = false;   // Reset checkcomm_flag
   }
   
+  // go to highest power saving mode
+  // will be woken up by an I2C command from the OBC
   LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
+
+  // wait a while after power up from sleep to execute main loop again
   delay(15);
 }
 
+//-------------------------------------------------------------------------/
+//  I2C BUS EVENT HANDLERS
+//-------------------------------------------------------------------------/
 
+/**************************************************************************/
+/*! 
+    @brief Handle for I2C onReceive. Handles behaviour when something is
+    received
+*/
+/**************************************************************************/
 void receiveEvent(int howMany) {
   wireCommand = Wire.read();
 }
 
-
+/**************************************************************************/
+/*! 
+    @brief Handle for I2C onRequest. Handles behaviour depending on what
+    was received
+*/
+/**************************************************************************/
 void requestEvent() {
   switch (wireCommand) {
     case ADCS_READY:

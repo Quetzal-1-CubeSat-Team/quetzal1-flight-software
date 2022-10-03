@@ -3,8 +3,8 @@
  * Originally from: Alex Wende @ SparkFun Electronics
  * Available online at: https://github.com/sparkfun/SparkFun_TMP102_Arduino_Library
  * Modified by: Aldo Aguilar-Nadalini 
- * Date: December 16th, 2018
- * Description: TMP100 Battery Thermal Sensor library headers
+ * Modification Date: December 16th, 2018
+ * Description: TMP100 Thermal Sensor library
  */
 
 // Imports

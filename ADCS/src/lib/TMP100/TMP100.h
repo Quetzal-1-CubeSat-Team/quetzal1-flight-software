@@ -1,17 +1,19 @@
 /*
- * Titulo: TMP100.h
- * Autor: Aldo Stefano Aguilar Nadalini 15170
- * Fecha: 16 de diciembre de 2018
- * Descripcion: Headers para programa que ejecuta funcionamiento de TMP100´s conectados a uC de Modulo EPS
+ * Title: TMP100.h
+ * Originally from: Alex Wende @ SparkFun Electronics
+ * Available online at: https://github.com/sparkfun/SparkFun_TMP102_Arduino_Library
+ * Modified by: Aldo Aguilar-Nadalini 
+ * Modification Date: December 16th, 2018
+ * Description: TMP100 Thermal Sensor library
  */
 
 // Imports
 #include "Arduino.h"
 #include <SoftwareWire.h>
 
-#define TMP100_ADDRESS_1            0x48				  // Conectar ADD1 a GND y ADD0 a GND
-#define TMP100_ADDRESS_2            0x4A				  // Conectar ADD1 a GND y ADD0 a VCC
-#define TMP100_ADDRESS_3            0x49          // Conectar ADD0 a float (TMP101 TEST)
+#define TMP100_ADDRESS_1            0x48				      // Connect ADD1 pin to GND and ADD0 pin to GND
+#define TMP100_ADDRESS_2            0x4A				      // Connect ADD1 pin to GND and ADD0 pin to VCC
+#define TMP100_ADDRESS_3            0x49              // Connect ADD1 pin to GND and ADD0 pin to float
 
 // General Constants //
 ///////////////////////

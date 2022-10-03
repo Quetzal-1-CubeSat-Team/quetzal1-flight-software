@@ -1,11 +1,21 @@
-/*
-   Title: EPS_Flight_Software.ino
-   Author: Aldo Aguilar-Nadalini
-   Date: August 19th, 2019 
-   Description: Electrical Power Subsystem (EPS) flight software (Guatemalan Nanosatellite :: Quetzal-1)
-*/
+/***************************************************************************
+  This is the Software for the Electrical Power System (EPS) for the
+  Quetzal-1 satellite, Guatemalas first satellite.
+  
+  Written to work specifically with the EPS Printed Circuit Board (PCB).
+  See our github for more info!
+  ------> https://github.com/Quetzal-1-CubeSat-Team
 
-// Import libraries ---------------------------------------------------------------
+  Written by Aldo Aguilar-Nadalini, with the support of the Quetzal-1 team.
+
+  Quetzal-1 was a 1U CubeSat developed by an engineering team from
+  Universidad del Valle de Guatemala (UVG). The satellite was deployed
+  from the International Space Station's (ISS) KiboCUBE module, on April
+  28, 2020, and operated succesfully in space from the day of deployment
+  to November of the same year. This amounted to 211 days of operation,
+  which validated the performance of all systems on-board.
+ ***************************************************************************/
+
 #include <Wire.h>
 #include <SoftwareSerial.h>
 #include <EPS.h>
@@ -16,18 +26,20 @@
 #include <avr/power.h>
 #include <avr/sleep.h>
 
-// Initialize internal EPS I2C bus for system's sensors ---------------------------
-// SDA = 8 ; SCL = 9 (ATMEGA328P)
-SoftwareWire eps_wire(SDA_PIN, SCL_PIN);
+//-------------------------------------------------------------------------/
+//  SENSOR INITIALIZATION
+//-------------------------------------------------------------------------/
+SoftwareWire eps_wire(SDA_PIN, SCL_PIN);      // Internal EPS I2C bus, // SDA = 8 ; SCL = 9 (ATMEGA328P)
 
-// Object declaration: ina260, bq27441 y tmp100 -----------------------------------
 INA260 ina260_1(1);                           // Solar Channel Monitor (SCM)
 INA260 ina260_2(2);                           // Main Bus Monitor (MBM)
 INA260 ina260_3(5);                           // Secondary Bus Monitor (SBM)
 BQ27441 bq27441_1;                            // Battery Gauge
 TMP100 tmp100_1(3);                           // Battery Thermal Sensor
 
-// Global variables  --------------------------------------------------------------
+//-------------------------------------------------------------------------/
+//  GLOBAL VARIABLES
+//-------------------------------------------------------------------------/
 bool collect_flag = false;                    // Flag to execute collect_data()
 bool collect_soc_flag = false;                // Flag to execute collect_soc()
 bool collect_FPB_flag = false;                // Flag to execute collect_FPB()
@@ -35,8 +47,6 @@ bool reset_flag = false;                      // Flag to execute resetFunc()
 bool EPS_ready_flag = false;                  // Flag to indicate that EPS was configured correctly upon start-up
 bool collected_data = false;                  // Flag to indicate if there is pending EPS data to be collected by OBC
 byte wireCommand = 0;                         // Variable to store OBC commands received via the satellite's main I2C bus
-
-// Data variables -----------------------------------------------------------------
 
 // INA260 No.1
 float busvoltage1_raw = 0;                    // To store raw data from INA260 No.1

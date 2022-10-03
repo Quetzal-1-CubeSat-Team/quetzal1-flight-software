@@ -1,3 +1,19 @@
+/***************************************************************************
+  This is the Software for the Attitude Determination and Control System
+  (ADCS) for the Quetzal-1 satellite, Guatemalas first satellite.
+  
+  Written to work specifically with the ADCS Printed Circuit Board (PCB).
+  See our github for more info!
+  ------> https://github.com/Quetzal-1-CubeSat-Team
+
+  Quetzal-1 was a 1U CubeSat developed by an engineering team from
+  Universidad del Valle de Guatemala (UVG). The satellite was deployed
+  from the International Space Station's (ISS) KiboCUBE module, on April
+  28, 2020, and operated succesfully in space from the day of deployment
+  to November of the same year. This amounted to 211 days of operation,
+  which validated the performance of all systems on-board.
+ ***************************************************************************/
+
 #ifndef __ADCS_H__
 #define __ADCS_H__
 
