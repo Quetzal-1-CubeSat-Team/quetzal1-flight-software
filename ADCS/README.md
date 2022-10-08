@@ -18,13 +18,13 @@ The directory is organized as follows:
 
 The ADCS carried the following I<sup>2</sup>C sensors to monitor the attitude (orientation) of the satellite:
 
-1. 1X [Adafruit Breakout Board](https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor) for the [Bosch, Cat. No. BNO055](https://cdn-learn.adafruit.com/assets/assets/000/036/832/original/BST_BNO055_DS000_14.pdf) - Inertial Measurement Unit (IMU)
-2. 12X sun sensors ([Vishay, Cat. No. TEMD6010FX01](https://www.vishay.com/en/product/81308/)) - Photodiodes
-3. 2X Analog-to-Digital Converters (ADC) ([Texas Instruments, Cat. No. ADC128D818](https://www.ti.com/product/ADC128D818)) - 8-channel, 12-bit (to read each photodiode voltage)
-4. 1X [Texas Instruments, Cat. No. TMP100](https://www.ti.com/product/TMP100) - Temperature Sensor with I<sup>2</sup>C Interface
+1. 1X [Bosch BNO055 Breakout Board from Adafruit](https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor) - Inertial Measurement Unit (IMU)
+2. 2X [Texas Instruments, Cat. No. ADC128D818](https://www.ti.com/product/ADC128D818) - 8-channel, 12-bit Analog-to-Digital Converters (ADC)
+    * Each ADC was connected to 6X sun sensors ([Vishay, Cat. No. TEMD6010FX01](https://www.vishay.com/en/product/81308/))
+3. 1X [Texas Instruments, Cat. No. TMP100](https://www.ti.com/product/TMP100) - Temperature Sensor with I<sup>2</sup>C Interface
 
 ---
-:information_source: The purpose of each sensor is better described in [[2]](#user-content-references), and a complete overview of the purpose of each sensor is given in [[1]](#user-content-references).
+:information_source: The purpose of each sensor is better described in [[2]](#user-content-references), and a complete overview of the selection process and usage is given in [[1]](#user-content-references).
 
 ---
 
@@ -76,7 +76,7 @@ Small modifications were done to accomodate for functions specific to Quetzal-1:
 1. The `MAGGYRO` mode was configured as follows:
 
 ```c++
-    bool  begin               ( adafruit_bno055_opmode_t mode = OPERATION_MODE_MAGGYRO );
+    bool  begin( adafruit_bno055_opmode_t mode = OPERATION_MODE_MAGGYRO );
 
 ```
 
@@ -95,7 +95,7 @@ Two types of commands were implemented on the ADCS software:
 1. __Data retrieval commands:__ used to immediately send back the requested data to the OBC (e.g. temperature data, gyroscope data or all data the collected by ADCS). 
 2. __Direct action commands__ used to activate (set to 1) one of the following internal ADCS flags: `collect_flag`, `checkcomm_flag`, `reset_flag`, `adm_reset_flag`. Subsequently, the microcontroller’s execution loop would perform the action corresponding to the activated flag, and it would deactivate (set to 0) the flag upon completion of the action.
 
-The complete list of OBC-EPS commands can be found [here](./src/lib/ADCS/ADCS.h).
+The complete list of OBC-ADCS commands can be found [here](./src/lib/ADCS/ADCS.h).
 
 ## References
 
