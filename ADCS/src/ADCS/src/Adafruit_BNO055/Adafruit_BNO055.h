@@ -21,9 +21,9 @@
 #define __ADAFRUIT_BNO055_H__
 
 #include "Arduino.h"
-#include <SoftwareWire.h>
-#include <Adafruit_Sensor.h>
-#include <imumaths.h>
+#include "../SoftwareWire/SoftwareWire.h"
+#include "../Adafruit_Sensor/Adafruit_Sensor.h"
+#include "utility/imumaths.h"
 
 #define BNO055_ADDRESS_A (0x28)
 #define BNO055_ADDRESS_B (0x29)

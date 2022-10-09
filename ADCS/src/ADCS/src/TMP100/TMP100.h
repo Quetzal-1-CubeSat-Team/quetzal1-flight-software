@@ -9,7 +9,7 @@
 
 // Imports
 #include "Arduino.h"
-#include <SoftwareWire.h>
+#include "../SoftwareWire/SoftwareWire.h"
 
 #define TMP100_ADDRESS_1            0x48				      // Connect ADD1 pin to GND and ADD0 pin to GND
 #define TMP100_ADDRESS_2            0x4A				      // Connect ADD1 pin to GND and ADD0 pin to VCC

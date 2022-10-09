@@ -14,16 +14,18 @@
   which validated the performance of all systems on-board.
  ***************************************************************************/
 
-#include "ADCS.h"
+// general libraries
 #include <avr/power.h>
 #include <avr/sleep.h>
-#include "LowPower.h"
-#include "SoftwareWire.h"
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include "Adafruit_BNO055.h"
-#include "ADC128D818.h"
-#include "TMP100.h"
+// local libraries
+#include "ADCS.h"
+#include "src/LowPower/LowPower.h"
+#include "src/SoftwareWire/SoftwareWire.h"
+#include "src/Adafruit_Sensor/Adafruit_Sensor.h"
+#include "src/Adafruit_BNO055/Adafruit_BNO055.h"
+#include "src/ADC128D818/ADC128D818.h"
+#include "src/TMP100/TMP100.h"
 
 //-------------------------------------------------------------------------/
 //  CONSTANTS

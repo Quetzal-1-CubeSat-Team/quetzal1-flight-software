@@ -9,7 +9,7 @@
 #define __ADC128D818_H__
 
 #include "Arduino.h"
-#include <SoftwareWire.h>
+#include "../SoftwareWire/SoftwareWire.h"
 
 enum ADC_REG {
     CONFIG_REG  = 0x00,

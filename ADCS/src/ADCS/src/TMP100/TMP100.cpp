@@ -9,8 +9,7 @@
 
 // Imports
 #include "Arduino.h"
-#include <TMP100.h>
-#include <SoftwareWire.h>
+#include "TMP100.h"
 
 /**************************************************************************/
 /*! 

@@ -11,14 +11,19 @@ This directory contains the flight software for the ADCS. It was developed using
 
 The directory is organized as follows:
 
-1. `src/`: contains the firmware programmed into the ADCS microcontroller.
-3. `media/`: contains miscellaneous images that may be of use and serve as reference to the user.
+1. [src/ADCS/](./src/ADCS/): contains the firmware programmed into the ADCS microcontroller.
+3. [media/](./media/): contains miscellaneous images that may be of use and serve as reference to the user.
+
+---
+:warning: Note that local library paths (*e.g.*, `src/ADC128D818/ADC128D818.h`) are used for the libraries included in the main sketch, to avoid compiling libraries that may be named the same within your own system. This has been tested to compile correctly with the Arduino IDE `1.8.13` and `2.0.0`.
+
+---
 
 ## Design of the ADCS I<sup>2</sup>C sensor network
 
 The ADCS carried the following I<sup>2</sup>C sensors to monitor the attitude (orientation) of the satellite:
 
-1. 1X [Bosch BNO055 Breakout Board from Adafruit](https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor) - Inertial Measurement Unit (IMU)
+1. 1X [Adafruit Breakout Board for Bosch, Cat. No. BNO055](https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor) - Inertial Measurement Unit (IMU)
 2. 2X [Texas Instruments, Cat. No. ADC128D818](https://www.ti.com/product/ADC128D818) - 8-channel, 12-bit Analog-to-Digital Converters (ADC)
     * Each ADC was connected to 6X sun sensors ([Vishay, Cat. No. TEMD6010FX01](https://www.vishay.com/en/product/81308/))
 3. 1X [Texas Instruments, Cat. No. TMP100](https://www.ti.com/product/TMP100) - Temperature Sensor with I<sup>2</sup>C Interface
