@@ -9,8 +9,7 @@
 
 // Imports
 #include "Arduino.h"
-#include <BQ27441.h>
-#include <SoftwareWire.h>
+#include "BQ27441.h"
 
 // Global variables
 bool _userConfigControl = false;

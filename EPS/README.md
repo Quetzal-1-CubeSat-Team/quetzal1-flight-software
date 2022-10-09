@@ -11,8 +11,13 @@ This directory contains the flight software for the EPS. It was developed using 
 
 The directory is organized as follows:
 
-1. `src/`: contains the firmware programmed into the EPS microcontroller.
-3. `media/`: contains miscellaneous images that may be of use and serve as reference to the user.
+1. [src/EPS/](./src/EPS/): contains the firmware programmed into the EPS microcontroller.
+3. [media/](./media/): contains miscellaneous images that may be of use and serve as reference to the user.
+
+---
+:warning: Note that local library paths (*e.g.*, `src/TMP100/TMP100.h`) are used for the libraries included in the main sketch, to avoid compiling libraries that may be named the same within your own system. This has been tested to compile correctly with the Arduino IDE `1.8.13` and `2.0.0`.
+
+---
 
 ## Design of the EPS I<sup>2</sup>C sensor network
 
@@ -56,7 +61,7 @@ Note that pin PD2 of the EPS &mu;C was used as a digital output pin that was con
 
 ## Software and sensor start-up
 
-The EPS firmware was designed with the same structure of a typical Arduino script. The main script `EPS_Flight_Software.ino` can be found [here](./src/EPS_Flight_Software.ino). The setup section of the code executed pin configuration of the microcontroller, activating the analog and digital pins connected to each of the EPS FPBs (ADCS, COMMS, Payload, Battery Heater). Subsequently, the &mu;C initialized the internal EPS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times, as shown in the following code snippet:
+The EPS firmware was designed with the same structure of a typical Arduino script. The main script `EPS_Flight_Software.ino` can be found [here](./src/EPS/EPS.ino). The setup section of the code executed pin configuration of the microcontroller, activating the analog and digital pins connected to each of the EPS FPBs (ADCS, COMMS, Payload, Battery Heater). Subsequently, the &mu;C initialized the internal EPS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times, as shown in the following code snippet:
 
 ```c++
   // Initial configuration of the Solar Channel Monitor (INA260 No.1)
@@ -95,7 +100,7 @@ Three different types of commands were implemented on the EPS software:
 2. __Data retrieval commands:__ used to immediately send back the requested data to the OBC (e.g. temperature data, voltage data or all data the collected by EPS). 
 3. __Direct action commands__ used to activate (set to 1) one of the following internal EPS flags: `collect_data`, `collect_SOC`, `collect_FPB`, `eps_reset`. Subsequently, the microcontroller’s execution loop would perform the action corresponding to the activated flag, and it would deactivate (set to 0) the flag upon completion of the action.
 
-The complete list of OBC-EPS commands can be found [here](./src/lib/EPS/EPS.h).
+The complete list of OBC-EPS commands can be found [here](./src/EPS/EPS.h).
 
 ## Power grid monitoring
 

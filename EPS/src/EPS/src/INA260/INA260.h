@@ -8,7 +8,7 @@
 
 // Imports
 #include "Arduino.h"
-#include <SoftwareWire.h>
+#include "../SoftwareWire/SoftwareWire.h">
 
 /*=========================================================================
     I2C ADDRESS/BITS

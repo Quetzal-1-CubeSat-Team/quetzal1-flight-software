@@ -8,8 +8,7 @@
 
 // Imports
 #include "Arduino.h"
-#include <INA260.h>
-#include <SoftwareWire.h>
+#include "INA260.h"
 
 /**************************************************************************/
 /*! 

@@ -16,15 +16,17 @@
   which validated the performance of all systems on-board.
  ***************************************************************************/
 
+// general libraries
 #include <Wire.h>
-#include <SoftwareSerial.h>
-#include <EPS.h>
-#include <INA260.h>
-#include <BQ27441.h>
-#include <TMP100.h>
-#include <LowPower.h>
 #include <avr/power.h>
 #include <avr/sleep.h>
+// local libraries
+#include "EPS.h"
+#include "src/SoftwareWire/SoftwareWire.h"
+#include "src/INA260/INA260.h"
+#include "src/BQ27441/BQ27441.h"
+#include "src/TMP100/TMP100.h"
+#include "src/LowPower/LowPower.h"
 
 //-------------------------------------------------------------------------/
 //  SENSOR INITIALIZATION
@@ -1116,4 +1118,3 @@ void requestEvent() {
       break;
   }
 }
-

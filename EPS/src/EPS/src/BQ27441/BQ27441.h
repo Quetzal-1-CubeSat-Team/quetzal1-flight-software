@@ -9,7 +9,7 @@
 
 // Imports
 #include "Arduino.h"
-#include <SoftwareWire.h>
+#include "../SoftwareWire/SoftwareWire.h">
 
 #define BQ27441_ADDRESS                 0x55
 

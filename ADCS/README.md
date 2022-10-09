@@ -15,7 +15,7 @@ The directory is organized as follows:
 3. [media/](./media/): contains miscellaneous images that may be of use and serve as reference to the user.
 
 ---
-:warning: Note that local library paths (*e.g.*, `src/ADC128D818/ADC128D818.h`) are used for the libraries included in the main sketch, to avoid compiling libraries that may be named the same within your own system. This has been tested to compile correctly with the Arduino IDE `1.8.13` and `2.0.0`.
+:warning: Note that local library paths (*e.g.*, `src/TMP100/TMP100.h`) are used for the libraries included in the main sketch, to avoid compiling libraries that may be named the same within your own system. This has been tested to compile correctly with the Arduino IDE `1.8.13` and `2.0.0`.
 
 ---
 
@@ -53,7 +53,7 @@ The following picture shows the circuit schematic of the complete ADCS &mu;C pin
 
 ## Software and sensor start-up
 
-The ADCS firmware was designed with the same structure of a typical Arduino script. The main script `ADCS_Flight_Software.ino` can be found [here](./src/ADCS_Flight_Software.ino). The setup section of the code executed certain power saving configurations and pin configuration of the microcontroller. Subsequently, the &mu;C initialized the internal ADCS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times.
+The ADCS firmware was designed with the same structure of a typical Arduino script. The main script `ADCS_Flight_Software.ino` can be found [here](./src/ADCS/ADCS.ino). The setup section of the code executed certain power saving configurations and pin configuration of the microcontroller. Subsequently, the &mu;C initialized the internal ADCS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times.
 
 Any error during the start-up sequence of a sensor was recorded in a Communication Flags (CF) byte. The structure of the CF byte was the following:
 
@@ -100,7 +100,7 @@ Two types of commands were implemented on the ADCS software:
 1. __Data retrieval commands:__ used to immediately send back the requested data to the OBC (e.g. temperature data, gyroscope data or all data the collected by ADCS). 
 2. __Direct action commands__ used to activate (set to 1) one of the following internal ADCS flags: `collect_flag`, `checkcomm_flag`, `reset_flag`, `adm_reset_flag`. Subsequently, the microcontroller’s execution loop would perform the action corresponding to the activated flag, and it would deactivate (set to 0) the flag upon completion of the action.
 
-The complete list of OBC-ADCS commands can be found [here](./src/lib/ADCS/ADCS.h).
+The complete list of OBC-ADCS commands can be found [here](./src/ADCS/ADCS.h).
 
 ## References
 
