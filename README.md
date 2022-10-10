@@ -15,7 +15,7 @@ The software for the following subsystems is included in this repository:
 1. [ADCS](./ADCS/): contains the software for the Attitude Determination and Control System (ADCS).
 2. [EPS](./EPS/): contains the software for the Electrical Power System (EPS).
 
-Lastly, the `media/` directory contains miscellaneous photos relating to the satellite in general, that may be of use and serve as reference to the user.
+Lastly, the [media/](./media/) directory contains miscellaneous photos relating to the satellite in general, that may be of use and serve as reference to the user.
 
 ## License
 
