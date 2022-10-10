@@ -61,7 +61,7 @@ Note that pin PD2 of the EPS &mu;C was used as a digital output pin that was con
 
 ## Software and sensor start-up
 
-The EPS firmware was designed with the same structure of a typical Arduino script. The main script `EPS_Flight_Software.ino` can be found [here](./src/EPS/EPS.ino). The setup section of the code executed pin configuration of the microcontroller, activating the analog and digital pins connected to each of the EPS FPBs (ADCS, COMMS, Payload, Battery Heater). Subsequently, the &mu;C initialized the internal EPS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times, as shown in the following code snippet:
+The EPS firmware was designed with the same structure of a typical Arduino script. The main script `EPS.ino` can be found [here](./src/EPS/EPS.ino). The setup section of the code executed pin configuration of the microcontroller, activating the analog and digital pins connected to each of the EPS FPBs (ADCS, COMMS, Payload, Battery Heater). Subsequently, the &mu;C initialized the internal EPS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times, as shown in the following code snippet:
 
 ```c++
   // Initial configuration of the Solar Channel Monitor (INA260 No.1)

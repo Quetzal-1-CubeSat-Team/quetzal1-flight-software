@@ -53,7 +53,7 @@ The following picture shows the circuit schematic of the complete ADCS &mu;C pin
 
 ## Software and sensor start-up
 
-The ADCS firmware was designed with the same structure of a typical Arduino script. The main script `ADCS_Flight_Software.ino` can be found [here](./src/ADCS/ADCS.ino). The setup section of the code executed certain power saving configurations and pin configuration of the microcontroller. Subsequently, the &mu;C initialized the internal ADCS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times.
+The ADCS firmware was designed with the same structure of a typical Arduino script. The main script `ADCS.ino` can be found [here](./src/ADCS/ADCS.ino). The setup section of the code executed certain power saving configurations and pin configuration of the microcontroller. Subsequently, the &mu;C initialized the internal ADCS I<sup>2</sup>C bus and all the sensors connected to it. To implement fault tolerance during sensor start-up, the µC was programmed to attempt the initial configuration of each I<sup>2</sup>C sensor a maximum of three times.
 
 Any error during the start-up sequence of a sensor was recorded in a Communication Flags (CF) byte. The structure of the CF byte was the following:
 
