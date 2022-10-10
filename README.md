@@ -17,6 +17,25 @@ The software for the following subsystems is included in this repository:
 
 Lastly, the `media/` directory contains miscellaneous photos relating to the satellite in general, that may be of use and serve as reference to the user.
 
+## License
+
+The Arduino sketches ([EPS.ino](./EPS/src/EPS/EPS.ino) and [ADCS.ino](./ADCS/src/ADCS/ADCS.ino)) and corresponding header files ([EPS.h](./EPS/src/EPS/EPS.h) and [ADCS.h](./ADCS/src/ADCS/ADCS.h)) written by the Quetzal-1 CubeSat Team are licensed under GPLv3 (see [LICENSE](.LICENSE)).
+
+However, all included libraries (that is, all files under the [ADCS/src/](./ADCS/src/ADCS/src/) or [EPS/src](./EPS/src/EPS/src/) directories) are distributed here for ease-of-use and under their original license (if applicable) and contain a `LICENSE` file within their own subdirectory (if available). 
+
+A list of all included libraries, their usage and license is shown below:
+
+| Library         | Used in   | License              |
+|-----------------|-----------|----------------------|
+| TMP100          | EPS, ADCS | Beerware             |
+| SoftwareWire    | EPS, ADCS | GPLv3                |
+| LowPower        | ADCS      | CC BY-SA 3.0         |
+| ADC128D818      | ADCS      | No available license |
+| Adafruit_Sensor | ADCS      | Apache 2.0           |
+| Adafruit_BNO055 | ADCS      | MIT                  |
+| BQ27441         | EPS       | MIT                  |
+| INA260          | EPS       | BSD                  |
+
 ## Available Repositories
 
 | Repository               | Description                                                                                                             |

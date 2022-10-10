@@ -1,20 +1,24 @@
 /***************************************************************************
   This is the Software for the Electrical Power System (EPS) for the
-  Quetzal-1 satellite, Guatemalas first satellite.
-  
-  Written to work specifically with the EPS Printed Circuit Board (PCB).
-  See our github for more info!
-  ------> https://github.com/Quetzal-1-CubeSat-Team
+  Quetzal-1 satellite, Guatemala's first satellite.
 
-  Written by Aldo Aguilar-Nadalini, with the support of the Quetzal-1 team.
+  Copyright (C) 2022  Universidad del Valle de Guatemala
 
-  Quetzal-1 was a 1U CubeSat developed by an engineering team from
-  Universidad del Valle de Guatemala (UVG). The satellite was deployed
-  from the International Space Station's (ISS) KiboCUBE module, on April
-  28, 2020, and operated succesfully in space from the day of deployment
-  to November of the same year. This amounted to 211 days of operation,
-  which validated the performance of all systems on-board.
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  ***************************************************************************/
+
+/* Written by Aldo-Aguilar Nadalini, with the support of Quetzal-1 team members */
 
 #ifndef __EPS_H__
 #define __EPS_H__

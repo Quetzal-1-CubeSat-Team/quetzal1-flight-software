@@ -2,7 +2,8 @@
  * @brief ADC128D818 12-Bit, 8-Channel, ADC System Monitor w/ Temp Sensor, Internal/External Reference, & I2C Interface
  * @author bryanduxbury
  * https://github.com/bryanduxbury/adc128d818_driver
- * Universidad del Valle de Guatemala, 2018
+ * Modified by: J.P. Cahueque, D. Alvarez and A. Ixtecoc (Universidad del Valle de Guatemala)
+ * Modification Date: 2018
  */
 
 #include "ADC128D818.h"
