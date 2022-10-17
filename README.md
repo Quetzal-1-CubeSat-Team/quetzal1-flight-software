@@ -4,7 +4,7 @@
 <img width="300" src="./media/quetzal_1_badge.png">
 </p>
 
-For an overview of Quetzal-1, [check this out!](https://github.com/Quetzal-1-CubeSat-Team)
+For an overview of Quetzal-1, [read our profile!](https://github.com/Quetzal-1-CubeSat-Team)
 
 ## Directory Description
 
