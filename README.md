@@ -26,14 +26,20 @@ A list of all included libraries, their usage and license is shown below:
 
 | Library         | Used in   | License              |
 |-----------------|-----------|----------------------|
-| TMP100          | EPS, ADCS | Beerware             |
-| SoftwareWire    | EPS, ADCS | GPLv3                |
-| LowPower        | ADCS      | CC BY-SA 3.0         |
-| ADC128D818      | ADCS      | No available license |
-| Adafruit_Sensor | ADCS      | Apache 2.0           |
-| Adafruit_BNO055 | ADCS      | MIT                  |
-| BQ27441         | EPS       | MIT                  |
-| INA260          | EPS       | BSD                  |
+| [TMP100](https://github.com/sparkfun/SparkFun_TMP102_Arduino_Library)     | EPS, ADCS | Beerware             |
+| [SoftwareWire](https://github.com/Testato/SoftwareWire)                   | EPS, ADCS | GPLv3                |
+| [LowPower](https://github.com/rocketscream/Low-Power)                     | ADCS      | CC BY-SA 3.0         |
+| [ADC128D818](https://github.com/bryanduxbury/adc128d818_driver)           | ADCS      | No available license |
+| [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)            | ADCS      | Apache 2.0           |
+| [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)            | ADCS      | MIT                  |
+| [BQ27441](https://github.com/sparkfun/SparkFun_BQ27441_Arduino_Library)   | EPS       | MIT                  |
+| [INA260](https://github.com/adafruit/Adafruit_INA260)                     | EPS       | BSD                  |
+
+## How should you cite this repository?
+
+You may cite this repository as shown below. Further information is available in the [CITATION.cff](./CITATION.cff) file.
+
+> Quetzal-1 CubeSat Team. (2022). Quetzal-1 Flight Software [Software]. https://github.com/Quetzal-1-CubeSat-Team/quetzal1-flight-software
 
 ## Available Repositories
 

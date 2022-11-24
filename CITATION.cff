@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+type: software
+message: "If you use this repository, please cite it as below."
+authors:
+  - given-names: Quetzal-1 CubeSat Team
+    affiliation: "Universidad del Valle de Guatemala"
+    email: "satelite@uvg.edu.gt"
+    website: https://www.uvg.edu.gt/cubesat-en/
+title: "Quetzal-1 Flight Software"
+date-released: 2022-11-22
+url: https://github.com/Quetzal-1-CubeSat-Team/quetzal1-flight-software
