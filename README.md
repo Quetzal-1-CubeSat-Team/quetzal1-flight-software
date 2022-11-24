@@ -39,7 +39,7 @@ A list of all included libraries, their usage and license is shown below:
 
 You may cite this repository as shown below. Further information is available in the [CITATION.cff](./CITATION.cff) file.
 
-> Quetzal-1 CubeSat Team. (2022). Quetzal-1 Flight Software [Software]. https://github.com/Quetzal-1-CubeSat-Team/quetzal1-flight-software
+> Quetzal-1 CubeSat Team. (2022). Quetzal-1 Flight Software [Computer software]. https://github.com/Quetzal-1-CubeSat-Team/quetzal1-flight-software
 
 ## Available Repositories
 
