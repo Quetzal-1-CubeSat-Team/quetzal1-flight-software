@@ -135,6 +135,6 @@ After the EPS &mu;C finished collecting all the data, the `collect_ready` flag w
 
 ## References
 
-[1] Aguilar-Nadalini, A. et al. (TBD): Design and On-Orbit Performance of the Electrical Power System for the Quetzal-1 CubeSat, Journal of Small Satellites (JOSS), vol. TBD(TBD), p. TBD.
+[1] Aguilar-Nadalini, A. et al. (2023): Design and On-Orbit Performance of the Electrical Power System for the Quetzal-1 CubeSat, Journal of Small Satellites (JOSS), vol. 12(2), p. 1201–1229.
 
 [2] Quetzal-1 CubeSat Team. (TBD): quetzal1-hardware, Available at: https://github.com/Quetzal-1-CubeSat-Team/quetzal1-hardware, (accessed TBD).

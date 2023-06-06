@@ -104,6 +104,6 @@ The complete list of OBC-ADCS commands can be found [here](./src/ADCS/ADCS.h).
 
 ## References
 
-[1] Alvarez, D. et al. (TBD): Design and On-Orbit Performance of the Attitude Determination and Passive Control System for the Quetzal-1 CubeSat, Journal of Small Satellites (JOSS), vol. TBD(TBD), p. TBD.
+[1] Alvarez, D. et al. (2023): Design and On-Orbit Performance of the Attitude Determination and Passive Control System for the Quetzal-1 CubeSat, Journal of Small Satellites (JOSS), vol. 12(2), p. 1231–1247.
 
 [2] Quetzal-1 CubeSat Team. (TBD): quetzal1-hardware, Available at: https://github.com/Quetzal-1-CubeSat-Team/quetzal1-hardware, (accessed TBD).
