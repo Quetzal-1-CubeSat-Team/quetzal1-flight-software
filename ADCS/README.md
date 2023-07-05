@@ -7,7 +7,7 @@
 
 ## Directory Description
 
-This directory contains the flight software for the ADCS. It was developed using [Arduino](https://www.arduino.cc/) and it containes the source files, as well as the necessary libraries.
+This directory contains the flight software for the ADCS. It was developed using [Arduino](https://www.arduino.cc/) and it contains the source files, as well as the necessary libraries.
 
 The directory is organized as follows:
 
