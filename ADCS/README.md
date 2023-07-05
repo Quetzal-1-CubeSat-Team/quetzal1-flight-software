@@ -41,7 +41,7 @@ The ADCS &mu;C itself was connected as a slave with the address `0xAA` to the sa
 
 ## Overview of ADCS &mu;C Pinout
 
-The following picture shows the circuit schematic of the complete ADCS &mu;C pinout. Note that pin `PD3` was used to reset the ADM subsytem, when commanded by the OBC.
+The following picture shows the circuit schematic of the complete ADCS &mu;C pinout. Note that pin `PD3` was used to reset the ADM subsystem, when commanded by the OBC.
 
 ![adcs-pinout](./media/adcs_pinout.png?raw=true "ADCS Pinout")
 
