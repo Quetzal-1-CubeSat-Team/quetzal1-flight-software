@@ -1,7 +1,7 @@
 
 // Signal differences
 // ------------------
-//    When the AVR microcontroller is set into hardwere I2C mode,
+//    When the AVR microcontroller is set into hardware I2C mode,
 //    the pins follow the I2C specifications for voltage levels and current.
 //    For example the current to pull SDA or SCL low is maximum 3mA.
 //
