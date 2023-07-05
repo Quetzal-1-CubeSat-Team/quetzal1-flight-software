@@ -58,7 +58,7 @@ bool INA260::wireWriteRegister (uint8_t reg, uint16_t value)
   eps_wire.write(value & 0xFF);              			// Lower 8-bits
   success = eps_wire.endTransmission();
 
-  if (success == 0){									            // If success == 0, the transmission was executed succesfully
+  if (success == 0){									            // If success == 0, the transmission was executed successfully
     return true;
   } else {
     return false;
