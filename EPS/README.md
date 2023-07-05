@@ -34,7 +34,7 @@ The following figure shows the layout of the internal EPS I<sup>2</sup>C network
 
 ![eps-network](./media/eps_network.png?raw=true "EPS Sensor Network")
 
-The EPS &mu;C itself was connected as a slave with the address `0x99` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The EPS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SofwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
+The EPS &mu;C itself was connected as a slave with the address `0x99` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The EPS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SoftwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
 
 ## Design of the EPS Fault Protection Boards (FPB) network
 

@@ -37,7 +37,7 @@ The following figure shows the layout of the internal ADCS I<sup>2</sup>C networ
 
 ![adcs-network](./media/adcs_network.png?raw=true "ADCS Sensor Network")
 
-The ADCS &mu;C itself was connected as a slave with the address `0xAA` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The ADCS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SofwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
+The ADCS &mu;C itself was connected as a slave with the address `0xAA` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The ADCS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SoftwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
 
 ## Overview of ADCS &mu;C Pinout
 

@@ -8,7 +8,7 @@
 //    With the Software I2C, a normal pin is used which can sink/source 40mA for a ATmega328P.
 //    That could increase the voltage spikes and could increase interference between sda and scl.
 //    The voltage levels are different.
-//    The timing of the sofware I2C is also different.
+//    The timing of the software I2C is also different.
 //
 //    In most cases the software I2C should work.
 //    With longer wires or with non-matching voltage levels, the result is unpredictable.
