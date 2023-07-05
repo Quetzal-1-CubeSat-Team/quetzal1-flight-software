@@ -7,7 +7,7 @@
 
 ## Directory Description
 
-This directory contains the flight software for the ADCS. It was developed using [Arduino](https://www.arduino.cc/) and it containes the source files, as well as the necessary libraries.
+This directory contains the flight software for the ADCS. It was developed using [Arduino](https://www.arduino.cc/) and it contains the source files, as well as the necessary libraries.
 
 The directory is organized as follows:
 
@@ -37,11 +37,11 @@ The following figure shows the layout of the internal ADCS I<sup>2</sup>C networ
 
 ![adcs-network](./media/adcs_network.png?raw=true "ADCS Sensor Network")
 
-The ADCS &mu;C itself was connected as a slave with the address `0xAA` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The ADCS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SofwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
+The ADCS &mu;C itself was connected as a slave with the address `0xAA` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The ADCS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SoftwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
 
 ## Overview of ADCS &mu;C Pinout
 
-The following picture shows the circuit schematic of the complete ADCS &mu;C pinout. Note that pin `PD3` was used to reset the ADM subsytem, when commanded by the OBC.
+The following picture shows the circuit schematic of the complete ADCS &mu;C pinout. Note that pin `PD3` was used to reset the ADM subsystem, when commanded by the OBC.
 
 ![adcs-pinout](./media/adcs_pinout.png?raw=true "ADCS Pinout")
 

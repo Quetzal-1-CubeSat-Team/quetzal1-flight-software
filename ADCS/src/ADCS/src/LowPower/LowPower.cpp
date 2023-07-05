@@ -24,7 +24,7 @@
 *			Tested to work with Arduino IDE 1.0.1 - 1.0.4.
 * 1.20		Remove typo error in idle method for checking whether Timer 0 was 
 *			turned off.
-*			Remove dependecy on WProgram.h which is not required.
+*			Remove dependency on WProgram.h which is not required.
 *			Tested to work with Arduino IDE 1.0.
 * 1.10		Added #ifndef for sleep_bod_disable() for compatibility with future
 *			Arduino IDE release.

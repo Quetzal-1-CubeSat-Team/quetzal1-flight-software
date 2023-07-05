@@ -263,7 +263,7 @@ void Adafruit_BNO055::getSystemStatus(uint8_t *system_status, uint8_t *self_test
      0 = Idle
      1 = System Error
      2 = Initializing Peripherals
-     3 = System Iniitalization
+     3 = System Initialization
      4 = Executing Self-Test
      5 = Sensor fusio algorithm running
      6 = System running without fusion algorithms */
@@ -294,7 +294,7 @@ void Adafruit_BNO055::getSystemStatus(uint8_t *system_status, uint8_t *self_test
      4 = Register map value out of range
      5 = Register map address out of range
      6 = Register map write error
-     7 = BNO low power mode not available for selected operat ion mode
+     7 = BNO low power mode not available for selected operation mode
      8 = Accelerometer power mode not available
      9 = Fusion algorithm configuration error
      A = Sensor configuration error */

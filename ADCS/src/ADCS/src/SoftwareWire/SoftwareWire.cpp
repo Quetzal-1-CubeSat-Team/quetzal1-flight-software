@@ -1,14 +1,14 @@
 
 // Signal differences
 // ------------------
-//    When the AVR microcontroller is set into hardwere I2C mode,
+//    When the AVR microcontroller is set into hardware I2C mode,
 //    the pins follow the I2C specifications for voltage levels and current.
 //    For example the current to pull SDA or SCL low is maximum 3mA.
 //
 //    With the Software I2C, a normal pin is used which can sink/source 40mA for a ATmega328P.
 //    That could increase the voltage spikes and could increase interference between sda and scl.
 //    The voltage levels are different.
-//    The timing of the sofware I2C is also different.
+//    The timing of the software I2C is also different.
 //
 //    In most cases the software I2C should work.
 //    With longer wires or with non-matching voltage levels, the result is unpredictable.
@@ -175,7 +175,7 @@ void SoftwareWire::begin(void)
   rxBufPut = 0;          // nothing in the rxBuf
   rxBufGet = 0;
 
-  i2c_init();            // relase the sda and scl (the pullup resistors pull them high)
+  i2c_init();            // release the sda and scl (the pullup resistors pull them high)
 
   // Some tests could be added here, to check if the SDA and SCL are really turning high.
   // Even some tests for shortcuts could be done here.
@@ -244,7 +244,7 @@ uint8_t SoftwareWire::requestFrom(uint8_t address, uint8_t size, boolean sendSto
 {
   uint8_t n=0;             // number of valid received bytes. Start with 0 bytes.
 
-  // The stransmission status is set, allthough it is not returned.
+  // The transmission status is set, although it is not returned.
   // Start with the status : no error
   _transmission = SOFTWAREWIRE_NO_ERROR;
 
@@ -561,7 +561,7 @@ void SoftwareWire::printStatus( Print& Ser)
   for(address=1; address<127; address++ )
   {
     // The i2c_scanner uses the return value of
-    // the Write.endTransmisstion to see if
+    // the Write.endTransmission to see if
     // a device did acknowledge to the address.
     beginTransmission(address);
     error = endTransmission();
@@ -621,7 +621,7 @@ void SoftwareWire::i2c_writebit(uint8_t c)
   // Check if clock stretching by the Slave should be detected.
   if( _stretch)
   {
-    // If the Slave was strechting the clock pulse, the clock would not go high immediately.
+    // If the Slave was stretching the clock pulse, the clock would not go high immediately.
     // For example if the Slave is an Arduino, that has other interrupts running (for example Serial data).
     unsigned long prevMillis = millis();
     while( i2c_scl_read() == 0)
@@ -687,7 +687,7 @@ uint8_t SoftwareWire::i2c_readbit(void)
 // Any Slave that was busy, will detect the STOP.
 //
 // After both lines are high, the delay is changed into 4 times the normal delay.
-// That did reduce the error with the first tranmission.
+// That did reduce the error with the first transmission.
 // It was tested with Arduino Uno with clock of 100kHz (_i2cdelay=2).
 //
 void SoftwareWire::i2c_init(void)
@@ -778,7 +778,7 @@ void SoftwareWire::i2c_repstart(void)
   // Check if clock stretching by the Slave should be detected.
   if( _stretch)
   {
-    // If the Slave was strechting the clock pulse, the clock would not go high immediately.
+    // If the Slave was stretching the clock pulse, the clock would not go high immediately.
     // For example if the Slave is an Arduino, that has other interrupts running (for example Serial data).
     unsigned long prevMillis = millis();
     while( i2c_scl_read() == 0)

@@ -173,7 +173,7 @@ float map_FPB(unsigned int raw, float lowLim, float highLim, float mapLow, float
 // Function to collect data from all EPS sensors
 void collect_data(){
 
-    // Reset collected_data flag to indicate that there is currectly no new EPS data to be retrieved by OBC
+    // Reset collected_data flag to indicate that there is currently no new EPS data to be retrieved by OBC
     collected_data = false;
 
     // Initialize Transmission Flags (if a sensor's flag switches from 1 to 0, the sensor failed to transmit data correctly)
@@ -200,7 +200,8 @@ void collect_data(){
       if (INA260_CONFIGURED1){
 
         // SOLAR PANELS CHANNEL - INA260 [Expected range: 0 - 4.2 V; Measuring range: 0 - 4.5 V; Mapped to: 0 - 252 bits; Resolution: 17.86 mV/bit]
-        busvoltage1_raw = ina260_1.getBusVoltage_V(SOLAR_PANELS_CHANNEL);                   // Channel No.1: SOLAR PANELS VOLTAGE (Sensor range: +/- 32.76V)                                                    // Truncar valores negativos
+        busvoltage1_raw = ina260_1.getBusVoltage_V(SOLAR_PANELS_CHANNEL);                   // Channel No.1: SOLAR PANELS VOLTAGE (Sensor range: +/- 32.76V)
+                                                                                            // Truncate negative voltages
         if (busvoltage1_raw >= 0 && busvoltage1_raw <= 4.5){                                // Check if voltage is in authorized range (0 - 4.5 V)
           busvoltage1_temp = (uint8_t) map_INA_TMP(busvoltage1_raw, 0, 4.5, 0, 252);        // Map 0 - 4.5 V to 0 - 252 bits (Reserved values: 253,254,255)
           busvoltage1 = ((byte) busvoltage1_temp) & 0xFF;                                   // Parse to byte for transmission

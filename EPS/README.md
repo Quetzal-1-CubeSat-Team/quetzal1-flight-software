@@ -7,7 +7,7 @@
 
 ## Directory Description
 
-This directory contains the flight software for the EPS. It was developed using [Arduino](https://www.arduino.cc/) and it containes the source files, as well as the necessary libraries.
+This directory contains the flight software for the EPS. It was developed using [Arduino](https://www.arduino.cc/) and it contains the source files, as well as the necessary libraries.
 
 The directory is organized as follows:
 
@@ -34,7 +34,7 @@ The following figure shows the layout of the internal EPS I<sup>2</sup>C network
 
 ![eps-network](./media/eps_network.png?raw=true "EPS Sensor Network")
 
-The EPS &mu;C itself was connected as a slave with the address `0x99` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The EPS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SofwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
+The EPS &mu;C itself was connected as a slave with the address `0x99` to the satellite´s main I<sup>2</sup>C bus, which had the On-Board Computer (OBC) as master. The EPS internal I<sup>2</sup>C bus (shown in the previous figure) was implemented using the SoftwareWire library from the Free Software Foundation, Inc. (available online at: [SoftwareWire Library](https://github.com/Testato/SoftwareWire)).
 
 ## Design of the EPS Fault Protection Boards (FPB) network
 
@@ -122,9 +122,9 @@ A Fault Flags (FPBF) byte was used to record any overcurrent or short-circuit fa
 Additionally, the OBC was programmed to retrieve the FPBF byte from the EPS &mu;C every time it commanded the EPS to activate a system. This was done to allow the OBC to issue a quick deactivation command to shut down a failing system. The FPBF byte structure is shown in the following table:
 
 __Table 3:__ EPS FPBF byte (SC - short-circuit; OC - overcurrent; 0 - All OK; 1 - Failure)
-| Bit         | 7              | 6               | 5             | 4            | 3              | 2              | 1             | 0            |
-|-------------|----------------|-----------------|---------------|--------------|----------------|----------------|---------------|--------------|
-| Description | Heater SC Flag | Payload SC Flag | Comms SC Flag | ADCS SC Flag | Heater OC Flag | Paylad OC Flag | COMMS OC Flag | ADCS OC Flag |
+| Bit         | 7              | 6               | 5             | 4            | 3              | 2               | 1             | 0            |
+|-------------|----------------|-----------------|---------------|--------------|----------------|-----------------|---------------|--------------|
+| Description | Heater SC Flag | Payload SC Flag | Comms SC Flag | ADCS SC Flag | Heater OC Flag | Payload OC Flag | COMMS OC Flag | ADCS OC Flag |
 
 ---
 :information_source: It is worth noting that the ADCS system was programmed in such a way that its sensors exited low power mode and executed their measurements after the EPS had finished its own measurements. For this reason, the EPS &mu;C always detected that the ADCS was enabled but consuming almost 0 mA during ground tests (reduced quiescent current in low power mode). This caused the ADCS short-circuit flag to always be set to 1 even though there was no real short-circuit condition. Since the ADCS would always be in failure according to the FPBF byte, the OBC was programmed to ignore the ADCS short-circuit flag to avoid an accidental shutdown of the system when the satellite launched into space.
