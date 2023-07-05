@@ -173,7 +173,7 @@ float map_FPB(unsigned int raw, float lowLim, float highLim, float mapLow, float
 // Function to collect data from all EPS sensors
 void collect_data(){
 
-    // Reset collected_data flag to indicate that there is currectly no new EPS data to be retrieved by OBC
+    // Reset collected_data flag to indicate that there is currently no new EPS data to be retrieved by OBC
     collected_data = false;
 
     // Initialize Transmission Flags (if a sensor's flag switches from 1 to 0, the sensor failed to transmit data correctly)
