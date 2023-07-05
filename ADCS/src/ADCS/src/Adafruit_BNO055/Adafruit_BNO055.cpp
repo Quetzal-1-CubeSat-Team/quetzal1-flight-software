@@ -263,7 +263,7 @@ void Adafruit_BNO055::getSystemStatus(uint8_t *system_status, uint8_t *self_test
      0 = Idle
      1 = System Error
      2 = Initializing Peripherals
-     3 = System Iniitalization
+     3 = System Initialization
      4 = Executing Self-Test
      5 = Sensor fusio algorithm running
      6 = System running without fusion algorithms */

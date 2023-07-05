@@ -101,7 +101,7 @@ bool INA260::INA260SetConfig(void){
 
 /**************************************************************************/
 /*! 
-    @brief  Inicialization of the INA260
+    @brief  Initialization of the INA260
 */
 /**************************************************************************/
 bool INA260::begin() {   
