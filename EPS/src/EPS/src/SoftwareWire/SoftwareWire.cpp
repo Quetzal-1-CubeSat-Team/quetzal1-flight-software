@@ -175,7 +175,7 @@ void SoftwareWire::begin(void)
   rxBufPut = 0;          // nothing in the rxBuf
   rxBufGet = 0;
 
-  i2c_init();            // relase the sda and scl (the pullup resistors pull them high)
+  i2c_init();            // release the sda and scl (the pullup resistors pull them high)
 
   // Some tests could be added here, to check if the SDA and SCL are really turning high.
   // Even some tests for shortcuts could be done here.
