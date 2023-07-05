@@ -244,7 +244,7 @@ uint8_t SoftwareWire::requestFrom(uint8_t address, uint8_t size, boolean sendSto
 {
   uint8_t n=0;             // number of valid received bytes. Start with 0 bytes.
 
-  // The stransmission status is set, although it is not returned.
+  // The transmission status is set, although it is not returned.
   // Start with the status : no error
   _transmission = SOFTWAREWIRE_NO_ERROR;
 
@@ -561,7 +561,7 @@ void SoftwareWire::printStatus( Print& Ser)
   for(address=1; address<127; address++ )
   {
     // The i2c_scanner uses the return value of
-    // the Write.endTransmisstion to see if
+    // the Write.endTransmission to see if
     // a device did acknowledge to the address.
     beginTransmission(address);
     error = endTransmission();
@@ -687,7 +687,7 @@ uint8_t SoftwareWire::i2c_readbit(void)
 // Any Slave that was busy, will detect the STOP.
 //
 // After both lines are high, the delay is changed into 4 times the normal delay.
-// That did reduce the error with the first tranmission.
+// That did reduce the error with the first transmission.
 // It was tested with Arduino Uno with clock of 100kHz (_i2cdelay=2).
 //
 void SoftwareWire::i2c_init(void)
