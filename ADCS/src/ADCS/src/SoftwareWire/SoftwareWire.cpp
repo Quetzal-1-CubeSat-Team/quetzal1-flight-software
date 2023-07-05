@@ -621,7 +621,7 @@ void SoftwareWire::i2c_writebit(uint8_t c)
   // Check if clock stretching by the Slave should be detected.
   if( _stretch)
   {
-    // If the Slave was strechting the clock pulse, the clock would not go high immediately.
+    // If the Slave was stretching the clock pulse, the clock would not go high immediately.
     // For example if the Slave is an Arduino, that has other interrupts running (for example Serial data).
     unsigned long prevMillis = millis();
     while( i2c_scl_read() == 0)
@@ -778,7 +778,7 @@ void SoftwareWire::i2c_repstart(void)
   // Check if clock stretching by the Slave should be detected.
   if( _stretch)
   {
-    // If the Slave was strechting the clock pulse, the clock would not go high immediately.
+    // If the Slave was stretching the clock pulse, the clock would not go high immediately.
     // For example if the Slave is an Arduino, that has other interrupts running (for example Serial data).
     unsigned long prevMillis = millis();
     while( i2c_scl_read() == 0)
